@@ -7,5 +7,6 @@ defmodule ApiTictacWeb.Router do
 
   scope "/api", ApiTictacWeb do
     pipe_through :api
+    get "/stats", StatsController, :stat
   end
 end

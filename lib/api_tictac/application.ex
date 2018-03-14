@@ -6,6 +6,8 @@ defmodule ApiTictac.Application do
   def start(_type, _args) do
     import Supervisor.Spec
 
+    init_visitor_stat()
+    
     # Define workers and child supervisors to be supervised
     children = [
       # Start the Ecto repository
@@ -27,5 +29,10 @@ defmodule ApiTictac.Application do
   def config_change(changed, _new, removed) do
     ApiTictacWeb.Endpoint.config_change(changed, removed)
     :ok
+  end
+
+  defp init_visitor_stat() do
+    :ets.new(:stats_registry, [:named_table, :set, :public])
+    :ets.insert(:stats_registry, {:visits, 1})
   end
 end
