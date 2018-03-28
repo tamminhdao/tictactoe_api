@@ -3,30 +3,38 @@ defmodule ApiTictacWeb.GameController do
   use Agent
 
   def new_game(conn, _params) do
-
     start_link(:game)
+    clear_the_board(:game)
 
     json conn, %{
       "Game Status" => status(get(:game)),
-      "Winner" => "nil",
+      "Winner" => winner(),
       "Board" => get(:game)
     }
   end
 
   def make_move(conn, _params) do
-    update(:game, 6, :H)
-    update(:game, EasyAI.cell_selection(get(:game)), :AI)
+    if status(get(:game)) != "Game Over" do
+      update(:game, 6, :H)
+    end
+
+    if status(get(:game)) != "Game Over" do
+      update(:game, EasyAI.cell_selection(get(:game)), :AI)
+    end
 
     json conn, %{
       "Game Status" => status(get(:game)),
-      "Winner" => "nil",
+      "Winner" => winner(),
       "Board" => get(:game)
     }
   end
 
   defp start_link(game_id) do
-    board = Board.empty_board
-    Agent.start_link(fn -> board end, name: game_id)
+    Agent.start_link(fn -> Board.empty_board end, name: game_id)
+  end
+
+  defp clear_the_board(game_id) do
+    Agent.update(game_id, fn current_board -> Board.empty_board end)
   end
 
   defp get(game_id) do
@@ -43,5 +51,9 @@ defmodule ApiTictacWeb.GameController do
     else
       "Game Over"
     end
+  end
+
+  defp winner do
+    Rules.winner(get(:game))
   end
 end
