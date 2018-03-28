@@ -13,9 +13,11 @@ defmodule ApiTictacWeb.GameController do
     }
   end
 
-  def make_move(conn, _params) do
+  def make_move(conn, %{"cell" => cell}) do
+    {cell_int, _} = Integer.parse(cell)
+
     if status(get(:game)) != "Game Over" do
-      update(:game, 6, :H)
+      update(:game, cell_int, :H)
     end
 
     if status(get(:game)) != "Game Over" do
