@@ -8,9 +8,9 @@ defmodule Api.ApiTictacWeb.GameControllerTest do
       |> json_response(200)
 
     expect = %{
-      "Game Status" => "In Progress",
+      "Game Status" => "In_Progress",
       "Winner" => nil,
-      "Board" => ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]
+      "Board" => " 0   1   2   3   4   5   6   7   8 "
     }
 
     assert response == expect
@@ -25,9 +25,9 @@ defmodule Api.ApiTictacWeb.GameControllerTest do
       |> json_response(200)
 
     expect = %{
-      "Game Status" => "In Progress",
+      "Game Status" => "In_Progress",
       "Winner" => nil,
-      "Board" => ["empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]
+      "Board" => " 0   1   2   3   4   5   6   7   8 "
     }
 
     assert response == expect
@@ -41,9 +41,9 @@ defmodule Api.ApiTictacWeb.GameControllerTest do
       |> json_response(200)
 
     expect = %{
-      "Game Status" => "In Progress",
+      "Game Status" => "In_Progress",
       "Winner" => nil,
-      "Board" => ["AI", "H", "empty", "empty", "empty", "empty", "empty", "empty", "empty"]
+      "Board" => " AI   H   2   3   4   5   6   7   8 "
     }
 
     assert response == expect
@@ -59,9 +59,9 @@ defmodule Api.ApiTictacWeb.GameControllerTest do
       |> json_response(200)
 
     expect = %{
-      "Game Status" => "Game Over",
+      "Game Status" => "Game_Over",
       "Winner" => "AI",
-      "Board" => ["AI", "AI", "AI", "H", "empty", "H", "empty", "empty", "H"]
+      "Board" => " AI   AI   AI   H   4   H   6   7   H "
     }
 
     assert response == expect
@@ -78,9 +78,9 @@ defmodule Api.ApiTictacWeb.GameControllerTest do
       |> json_response(200)
 
     expect = %{
-      "Game Status" => "Game Over",
+      "Game Status" => "Game_Over",
       "Winner" => "AI",
-      "Board" => ["AI", "AI", "AI", "H", "empty", "H", "empty", "empty", "H"]
+      "Board" => " AI   AI   AI   H   4   H   6   7   H "
     }
 
     assert response == expect

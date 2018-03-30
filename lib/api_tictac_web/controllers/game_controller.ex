@@ -9,25 +9,25 @@ defmodule ApiTictacWeb.GameController do
     json conn, %{
       "Game Status" => status(get(:game)),
       "Winner" => winner(),
-      "Board" => get(:game)
+      "Board" => display_board(get(:game))
     }
   end
 
   def make_move(conn, %{"cell" => cell}) do
     {cell_int, _} = Integer.parse(cell)
 
-    if status(get(:game)) != "Game Over" do
+    if status(get(:game)) != :Game_Over do
       update(:game, cell_int, :H)
     end
 
-    if status(get(:game)) != "Game Over" do
+    if status(get(:game)) != :Game_Over do
       update(:game, EasyAI.cell_selection(get(:game)), :AI)
     end
 
     json conn, %{
       "Game Status" => status(get(:game)),
       "Winner" => winner(),
-      "Board" => get(:game)
+      "Board" => display_board(get(:game))
     }
   end
 
@@ -49,13 +49,19 @@ defmodule ApiTictacWeb.GameController do
 
   defp status(board) do
     if Rules.game_in_progress?(board) do
-      "In Progress"
+      :In_Progress
     else
-      "Game Over"
+      :Game_Over
     end
   end
 
   defp winner do
     Rules.winner(get(:game))
+  end
+
+  defp display_board(board) do
+    board
+    |> Board.format_board()
+    |> Enum.join(" ")
   end
 end
